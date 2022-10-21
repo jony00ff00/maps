@@ -76,20 +76,18 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 <option value="water">Water</option>
 <option value="background">Background</option>
 <option value="road_network">Road network</option>
+<option value="country">Country</option>
 </select>
+</fieldset>
+<fieldset>
+<label>Toggle visibility</label>
+<div id="vis"></div>
 </fieldset>
 <fieldset>
 <label>Choose a color</label>
 <div id="swatches"></div>
 </fieldset>
 </div>
-<fieldset>
-<label>Toggle visibility</label>
-<select id="visibility" name="visibility">
-<option value="visible">Visible</option>
-<option value="none">Hidden</option>
-</select>
-</fieldset>
 </div>
 	
 	
@@ -104,7 +102,7 @@ zoom: 3 // starting zoom
 
 var layer = document.getElementById('layer');	
   
-var visibility = document.getElementById('layer.visibility');
+var vis = document.getElementById('vis');
 
 var swatches = document.getElementById('swatches');
 
@@ -140,7 +138,21 @@ map.setPaintProperty(layer.value, 'line-color', color);
 swatches.appendChild(swatch);
 });
 
-  
+var visbuttons = [
+	"Visible",
+	"Hidden"
+	];
+	
+visbuttons.forEach(function (visibility) {
+		
+var visswatch = document.createElement('button');
+visswatch.style.backgroundColor = color;
+visswatch.addEventListener('click', function () {	
+map.setLayoutProperty(layer.value, 'visibility', none);
+});
+	
+vis.appendChild(visbuttons);
+});
 	
 </script>
  
