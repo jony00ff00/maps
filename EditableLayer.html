@@ -95,6 +95,8 @@ center: [103.8198, 1.3521], // starting position [lng, lat]
 zoom: 2 // starting zoom
 });
 
+var layer = document.getElementById('layer');
+	
 var colortype;	
 	if (layer.type === 'fill') {
 colortype = 'fill-color';
@@ -109,7 +111,7 @@ colortype = 'line-color';
 colortype = 'text-color';
 }
 var swatches = document.getElementById('swatches');
-var layer = document.getElementById('layer');
+
 var colors = [
 '#ffffff',
 '#000000',
