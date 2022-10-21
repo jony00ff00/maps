@@ -111,10 +111,24 @@ var colors = [
 ];
  
 colors.forEach(function (color) {
+var color-type;	
+		if (layers[i].type === 'fill') {
+colors-type = fill-color;
+}
+		else if (layers[i].type === 'background') {
+colors-type = background-color;
+}
+		else if (layers[i].type === 'line') {
+colors-type = line-color;
+}
+	else {
+colors-type = text-color;
+}
+		
 var swatch = document.createElement('button');
 swatch.style.backgroundColor = color;
 swatch.addEventListener('click', function () {
-map.setPaintProperty(layer.value, 'fill-color', 'line-color', 'background-color', color);
+map.setPaintProperty(layer.value, 'color-type', color);
 });
 swatches.appendChild(swatch);
 });
