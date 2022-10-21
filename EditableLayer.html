@@ -112,13 +112,13 @@ var colors = [
  
 colors.forEach(function (color) {
 var colortype;	
-		if (layers[i].type === 'fill') {
+		if (layer.type === 'fill') {
 colortype = fill-color;
 }
-		else if (layers[i].type === 'background') {
+		else if (layer.type === 'background') {
 colortype = background-color;
 }
-		else if (layers[i].type === 'line') {
+		else if (layer.type === 'line') {
 colortype = line-color;
 }
 	else {
