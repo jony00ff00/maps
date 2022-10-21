@@ -113,16 +113,16 @@ var colors = [
 colors.forEach(function (color) {
 var colortype;	
 		if (layers[i].type === 'fill') {
-colors-type = fill-color;
+colortype = fill-color;
 }
 		else if (layers[i].type === 'background') {
-colors-type = background-color;
+colortype = background-color;
 }
 		else if (layers[i].type === 'line') {
-colors-type = line-color;
+colortype = line-color;
 }
 	else {
-colors-type = text-color;
+colortype = text-color;
 }
 		
 var swatch = document.createElement('button');
