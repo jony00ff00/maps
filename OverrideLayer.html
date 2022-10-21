@@ -22,22 +22,22 @@ center: [103.8198, 1.3521], // starting position [lng, lat]
 zoom: 4 // starting zoom
 });
   
-  map.on('load', function () {
-var layers = map.getStyle(residential).layers;
+   map.on('load', function () {
+var layers = map.getStyle().layers;
 // Find the index of the first symbol layer in the map style
-var firstSymbolId;
+var firstFillId;
 for (var i = 0; i < layers.length; i++) {
-if (layers[i].type === 'symbol') {
-firstSymbolId = layers[i].id;
+if (layers[i].type === 'fill') {
+firstFillId = layers[i].id;
 break;
 }
 }
 
 map.addLayer(
 {
-'id': 'background',
+'id': 'background-override',
 'type': 'background',
-'layout': {"visibility": "visible"},
+'layout': {'visibility;'visible'},
 'paint': {
                 "background-color": {
                     "stops": [
@@ -60,7 +60,7 @@ map.addLayer(
 // 'overlays' anywhere in the layer stack.
 // Insert the layer beneath the first symbol layer.
 },
-firstSymbolId
+firstFillId
 	);
 });
 </script>
