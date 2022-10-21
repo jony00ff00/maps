@@ -109,21 +109,22 @@ var colors = [
 '#f03b20',
 '#bd0026'
 ];
- 
-colors.forEach(function (color) {
+	
 var colortype;	
-		if (layer.type === 'fill') {
+	if (layer.type === 'fill') {
 colortype = fill-color;
 }
-		else if (layer.type === 'background') {
+	else if (layer.type === 'background') {
 colortype = background-color;
 }
-		else if (layer.type === 'line') {
+	else if (layer.type === 'line') {
 colortype = line-color;
 }
 	else {
 colortype = text-color;
 }
+ 
+colors.forEach(function (color) {
 		
 var swatch = document.createElement('button');
 swatch.style.backgroundColor = color;
