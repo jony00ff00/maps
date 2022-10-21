@@ -111,7 +111,7 @@ var colors = [
 ];
  
 colors.forEach(function (color) {
-var color-type;	
+var colortype;	
 		if (layers[i].type === 'fill') {
 colors-type = fill-color;
 }
@@ -128,7 +128,7 @@ colors-type = text-color;
 var swatch = document.createElement('button');
 swatch.style.backgroundColor = color;
 swatch.addEventListener('click', function () {
-map.setPaintProperty(layer.value, 'color-type', color);
+map.setPaintProperty(layer.value, 'colortype', color);
 });
 swatches.appendChild(swatch);
 });
