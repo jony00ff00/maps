@@ -121,8 +121,11 @@ swatch.style.backgroundColor = color;
 swatch.addEventListener('click', function () {	
 map.setPaintProperty(layer.value, 'fill-color', color);
 });
-	swatch.addEventListener('click', function () {	
+swatch.addEventListener('click', function () {	
 map.setPaintProperty(layer.value, 'background-color', color);
+});
+swatch.addEventListener('click', function () {	
+map.setPaintProperty(layer.value, 'line-color', color);
 });
 	
 swatches.appendChild(swatch);
