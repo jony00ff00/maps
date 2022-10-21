@@ -92,18 +92,11 @@ var map = new maplibregl.Map({
 container: 'map', // container id
 style: 'https://api.maptiler.com/maps/4b662653-45ea-424c-9ab5-abea520ca5bc/style.json?key=82w8f522FRrsV0W7g8QF', // style URL
 center: [103.8198, 1.3521], // starting position [lng, lat]
-zoom: 3 // starting zoom
+zoom: 2 // starting zoom
 });
 
-var layer = document.getElementById('layer');
-	
-var colortype;	
-	if (layer.type === 'fill') {
-colortype = 'fill-color';
-}
-	else {
-colortype = 'text-color';
-}
+var layer = document.getElementById('layer');	
+
 var swatches = document.getElementById('swatches');
 
 var colors = [
@@ -126,6 +119,13 @@ colors.forEach(function (color) {
 var swatch = document.createElement('button');
 swatch.style.backgroundColor = color;
 swatch.addEventListener('click', function () {
+	var colortype;	
+	if (layer.type === 'fill') {
+colortype = 'fill-color';
+}
+	else {
+colortype = 'text-color';
+}
 map.setPaintProperty(layer.value, 'colortype', color);
 });
 swatches.appendChild(swatch);
