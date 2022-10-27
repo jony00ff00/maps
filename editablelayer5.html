@@ -14,24 +14,12 @@
 <style>
 	
 	body { margin: 0; padding: 0; }
-	#map { position: relative; width: 100%; height:800px; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
 	
-.row {
-padding: 50px;
-	
-.columnL {
-float: left;
-width: 20%;
-}
-	
-.columnR {
-float: right;
-width: 80%;
-}
 
 .map-overlay {
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-position: relative;
+position: absolute;
 width: 200px;
 top: 0;
 left: 0;
@@ -130,8 +118,7 @@ orange;
 </head>
 <body>
 
-<div id="row">
-<div id="columnL">
+
 	
 <div class="map-overlay top">
 <div class="map-overlay-inner">
@@ -148,11 +135,6 @@ orange;
 <label>Choose a color</label>
 <div id="swatches"></div>
 </fieldset>
-</div>
-</div>
-	
-<div class="map-overlay top">
-<div class="map-overlay-inner">
 <fieldset>	
 <label>Get style</label>
 <button type="button" onclick="saveDynamicDataToFile();">Save</button>
@@ -161,12 +143,12 @@ orange;
 </div>
 	
 </div>
+</div>
 	
-<div id="columnR">
+	
+
 <div id="map"></div>
-</div>
-	
-</div>
+
 	
 	
 <script>
