@@ -5,6 +5,8 @@
 <title>Edit a layer with buttons</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+<script src="https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.js"></script>
+<link href='https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.css' rel='stylesheet' />
 <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
 <style>
 	body { margin: 0; padding: 0; }
@@ -99,6 +101,16 @@ style: 'https://api.maptiler.com/maps/4b662653-45ea-424c-9ab5-abea520ca5bc/style
 center: [103.8198, 1.3521], // starting position [lng, lat]
 zoom: 3 // starting zoom
 });
+	
+
+map.addControl(new maplibregl.NavigationControl(), 'top-right');
+	
+//Add control for exporting
+map.addControl(new maplibregl.ExportControl({
+	PageSize: Size.A3,
+	Format: Format.PNG,
+}), 'top-right');
+	
 
 var layer = document.getElementById('layer');	
   
