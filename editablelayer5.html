@@ -187,10 +187,16 @@ swatches.appendChild(swatch);
 
 
 	
-function saveStaticDataToFile() {
+function saveStaticDataToFile2() {
 var styleJson = map.getStyle();	
 saveas(styleJson, "style.json");
 };
+	
+function saveStaticDataToFile() {
+            var blob = new Blob(["Welcome to Websparrow.org."],
+                { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "static.txt");
+        }
 	
 
 	
