@@ -9,6 +9,7 @@
 
 <link href='https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.css' rel='stylesheet' />
 <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+<link href="https://github.com/korywka/mapbox-gl-controls/lib/controls.css" rel="stylesheet" />	
 <style>
 	
 	body { margin: 0; padding: 0; }
@@ -185,12 +186,8 @@ swatches.appendChild(swatch);
 });
 
 
-	
+npm install https://github.com/korywka/mapbox-gl-controls	
 import { StylesControl } from 'mapbox-gl-controls';
-
-// with default styles:
-map.addControl(new StylesControl(), 'top-left');
-
 // with custom styles:
 map.addControl(new StylesControl({
   styles: [
