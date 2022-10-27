@@ -14,11 +14,10 @@
 <style>
 	
 	body { margin: 0; padding: 0; }
-	#map { position: relative; width: 800px; height:800px; }
+	#map { position: relative; width: 100%; height:800px; }
 	
 .row {
 padding: 50px;
-}
 	
 .columnL {
 float: left;
@@ -82,6 +81,51 @@ outline: none;
 .map-overlay-inner button:hover {
 box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
+	
+	
+	
+/*layerSwitcherControl*/
+.maplibregl-ctrl-basemaps {
+  display: flex;
+  flex-direction: row;
+  pointer-events: auto;
+  bottom: 15px;
+  position: relative;
+}
+.maplibregl-ctrl-basemaps.reverse {
+  flex-direction: row-reverse;
+}
+.maplibregl-ctrl-basemaps.column {
+  flex-direction: column;
+}
+.maplibregl-ctrl-basemaps.column.reverse {
+  flex-direction: column-reverse;
+}
+.maplibregl-ctrl-basemaps .basemap {
+  width: 64px;
+  height: 64px;
+  margin: 2px;
+  border: 2px solid 
+#ccc;
+  box-shadow: 0 1px 5px 
+rgba(0, 0, 0, 0.65);
+  cursor: pointer;
+}
+.maplibregl-ctrl-basemaps .basemap.active {
+  border-color: 
+orange;
+  box-shadow: 2px 2px 4px 
+#000;
+}
+.maplibregl-ctrl-basemaps.closed .basemap {
+  display: none;
+}
+.maplibregl-ctrl-basemaps.closed .basemap.active {
+  display: block;
+  border: 2px solid 
+#ccc;
+}
+
 </style>
 </head>
 <body>
@@ -131,7 +175,7 @@ var map = new maplibregl.Map({
 container: 'map', // container id
 style: 'https://api.maptiler.com/maps/4b662653-45ea-424c-9ab5-abea520ca5bc/style.json?key=82w8f522FRrsV0W7g8QF', // style URL
 center: [103.8198, 1.3521], // starting position [lng, lat]
-zoom: 4 // starting zoom
+zoom: 3 // starting zoom
 });
 	
 
@@ -183,7 +227,7 @@ swatches.appendChild(swatch);
 });
 
 
-	
+//add layer visibility toggle	
 map.on('load', function() {
     const targets = {
         'residential': 'Residential',
@@ -208,6 +252,83 @@ map.on('load', function() {
         reverseOrder: false
     }), 'top-right');
 })
+
+	
+//add style swapper	
+const baseMaps = {
+  "streets": {
+    name: "streets",
+    img: "https://cloud.maptiler.com/static/img/maps/streets.png"
+  },
+  "winter": {
+    name: "winter",
+    img: "https://cloud.maptiler.com/static/img/maps/winter.png"
+  },
+  "hybrid": {
+    name: "hybrid",
+    img: "https://cloud.maptiler.com/static/img/maps/hybrid.png"
+  }
+}
+
+class styleSwitcherControl {
+
+  constructor(options) {
+    this._options = {...options};
+    this._container = document.createElement("div");
+    this._container.classList.add("maplibregl-ctrl");
+    this._container.classList.add("maplibregl-ctrl-basemaps");
+    this._container.classList.add("closed");
+    switch (this._options.expandDirection || "right") {
+        case "top":
+            this._container.classList.add("reverse");
+        case "down":
+            this._container.classList.add("column");
+            break;
+        case "left":
+            this._container.classList.add("reverse");
+        case "right":
+            this._container.classList.add("row");
+    }
+    this._container.addEventListener("mouseenter", () => {
+        this._container.classList.remove("closed");
+    });
+    this._container.addEventListener("mouseleave", () => {
+        this._container.classList.add("closed");
+    });
+  }
+
+  onAdd(map) {
+    this._map = map;
+    const basemaps = this._options.basemaps;
+    Object.keys(basemaps).forEach((layerId) => {
+      const base = basemaps[layerId];
+      const basemapContainer = document.createElement("img");
+      basemapContainer.src = base.img;
+      basemapContainer.classList.add("basemap");
+      basemapContainer.dataset.id = layerId;
+      basemapContainer.addEventListener("click", () => {
+        const activeElement = this._container.querySelector(".active");
+        activeElement.classList.remove("active");
+        basemapContainer.classList.add("active");
+        let url_content = `https://api.maptiler.com/maps/${layerId}/style.json?key=${key}`
+        map.setStyle(url_content, {diff: false});
+      });
+      basemapContainer.classList.add("hidden");
+      this._container.appendChild(basemapContainer);
+      if (this._options.initialBasemap === layerId) {
+          basemapContainer.classList.add("active");
+      }
+    });
+    return this._container;
+  }
+
+  onRemove(){
+    this._container.parentNode?.removeChild(this._container);
+    delete this._map;
+  }
+}
+map.addControl(new styleSwitcherControl({basemaps: baseMaps, initialBasemap: initialStyle}), 'bottom-left');
+
 
 	
 </script>
