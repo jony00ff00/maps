@@ -191,8 +191,16 @@ swatches.appendChild(swatch);
 map.on('load', function() {
     const targets = {
         'residential': 'Residential',
-        'landcover': 'Landcover', 
+	'glacier': 'Glacier',	   
+        'landcover': 'Landcover', 	     
         'forest': 'Forest',
+	'waterway': 'Waterway',
+	'waterway_intermittent': 'Waterway intermittent',
+	'railway_transit_tunnel': 'Railway transit tunnel',
+	'road_bridge': 'Road bridge',
+	'road_pier': 'Road pier',
+	'road_network': 'Road network',
+	'road_path': 'Road path',
         'place': 'Place', 
         'country': 'Country'
         
@@ -200,8 +208,8 @@ map.on('load', function() {
     map.addControl(new MaplibreLegendControl(targets, {
         showDefault: false, 
         showCheckbox: true, 
-        onlyRendered: true,
-        reverseOrder: true
+        onlyRendered: false,
+        reverseOrder: false
     }), 'top-right');
 })
 
