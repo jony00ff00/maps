@@ -6,10 +6,11 @@
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
 <script src="https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.js"></script>
+<script src="https://watergis.github.io/maplibre-gl-legend/maplibre-gl-legend.js"></script>
 
 <link href='https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.css' rel='stylesheet' />
 <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
-<link href="https://github.com/korywka/mapbox-gl-controls/lib/controls.css" rel="stylesheet" />	
+<link href='https://watergis.github.io/maplibre-gl-legend/maplibre-gl-legend.css' rel='stylesheet' />
 <style>
 	
 	body { margin: 0; padding: 0; }
@@ -186,23 +187,23 @@ swatches.appendChild(swatch);
 });
 
 
-npm install https://github.com/korywka/mapbox-gl-controls	
-import { StylesControl } from 'mapbox-gl-controls';
-// with custom styles:
-map.addControl(new StylesControl({
-  styles: [
-    {
-      label: 'Streets',
-      styleName: 'Mapbox Streets',
-      styleUrl: 'mapbox://styles/mapbox/streets-v9',
-    }, {
-      label: 'Satellite',
-      styleName: 'Satellite',
-      styleUrl: 'mapbox://styles/mapbox/satellite-v9',
-    },
-  ],
-  onChange: (style) => console.log(style),
-}), 'top-left');
+	
+map.on('load', function() {
+    const targets = {
+        'residential': 'Residential',
+        'landcover': 'Landcover', 
+        'forest': 'Forest',
+        'place': 'Place', 
+        'country': 'Country'
+        
+    };
+    map.addControl(new MaplibreLegendControl(targets, {
+        showDefault: false, 
+        showCheckbox: false, 
+        onlyRendered: true,
+        reverseOrder: true
+    }), 'top-right');
+})
 
 	
 </script>
