@@ -327,7 +327,7 @@ async function saveFile() {
     }]
   });
   const fileStream = await fileHandle.createWritable();
-	await fileStream.write(myBlob);
+	await fileStream.write(styleBlob);
   await fileStream.close();
 }
 	
