@@ -17,6 +17,14 @@
 </head>
 <body>
 <style>
+.columnL {
+width: 20%
+}
+	
+.columnR {
+width: 80%
+}
+
 .map-overlay {
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 position: absolute;
@@ -71,8 +79,8 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 </style>
 	
-<div id="map"></div>
 	
+<div id="columnL">	
 <div class="map-overlay top">
 <div class="map-overlay-inner">
 <fieldset>
@@ -102,6 +110,12 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 <button type="button" onclick="saveDynamicDataToFile();">Click to Save</button>
 </fieldset>
 </div>
+</div>
+	
+</div>
+	
+<div id="columnR">
+<div id="map"></div>
 </div>
 	
 	
