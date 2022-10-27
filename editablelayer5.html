@@ -186,8 +186,11 @@ swatches.appendChild(swatch);
 });
 
 
-var styleJson = map.getStyle();		
-function saveStaticDataToFile() {styleJson, "style.json"};
+	
+function saveStaticDataToFile() {
+var styleJson = map.getStyle();	
+saveas(styleJson, "style.json");
+};
 	
 
 	
