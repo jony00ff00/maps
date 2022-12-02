@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Drawing on map</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+<script src="https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.js"></script>
+<script src="https://watergis.github.io/maplibre-gl-legend/maplibre-gl-legend.js"></script>
+
+<link href='https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.css' rel='stylesheet' />
+<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+<link href='https://watergis.github.io/maplibre-gl-legend/maplibre-gl-legend.css' rel='stylesheet' />
+	
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css" type="text/css"/>
+
+/* draw circle - not working */
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/CircleMode.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/DragCircleMode.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/DirectModeOverride.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/SimpleSelectModeOverride.js"></script>
+  
+/* Style control */
+
+<script>
+class Base {
+  node: HTMLDivElement;
+  // @ts-ignore
+  map: Map;
+
+  constructor() {
+    this.node = document.createElement('div');
+    this.node.classList.add('mapboxgl-ctrl');
+    this.node.classList.add('mapboxgl-ctrl-group');
+    this.node.classList.add('mapbox-control');
+  }
+
+  addButton(...buttons: Button[]) {
+    buttons.forEach((button) => this.node.appendChild(button.node));
+  }
+
+  addClassName(className: string) {
+    this.node.classList.add(className);
+  }
+
+  removeClassName(className: string) {
+    this.node.classList.remove(className);
+  }
+
+  onAddControl() {
+    // extend
+  }
+
+  onRemoveControl() {
+    // extend
+  }
+
+  onAdd(map: Map) {
+    this.map = map;
+    this.onAddControl();
+
+    return this.node;
+  }
+
+  onRemove() {
+    this.onRemoveControl();
+    this.node.parentNode!.removeChild(this.node);
+  }
+}
+
+export default Base;
+
+class Button {
+  node: HTMLButtonElement;
+  icon?: SVGElement;
+
+  constructor() {
+    this.node = document.createElement('button');
+    this.node.type = 'button';
+  }
+
+  setIcon(icon: SVGElement) {
+    this.icon = icon;
+    this.node.appendChild(icon);
+
+    return this;
+  }
+
+  setText(text: string) {
+    this.node.textContent = text;
+
+    return this;
+  }
+
+  setDisabled(isDisabled: boolean) {
+    this.node.disabled = isDisabled;
+
+    return this;
+  }
+
+  setActive(isActive: boolean) {
+    if (isActive) {
+      this.addClassName('-active');
+    } else {
+      this.removeClassName('-active');
+    }
+
+    return this;
+  }
+
+  isActive() {
+    return this.node.classList.contains('-active');
+  }
+
+  onClick(callback: (event: MouseEvent) => void) {
+    this.node.addEventListener('click', callback);
+
+    return this;
+  }
+
+  addClassName(className: string) {
+    this.node.classList.add(className);
+
+    return this;
+  }
+
+  removeClassName(className: string) {
+    this.node.classList.remove(className);
+
+    return this;
+  }
+}
+
+export default Button;
+  
+interface StylesControlOptions {
+  /** Array of style options */
+  styles?: StyleOption[];
+  /** Triggered on style change */
+  onChange?: (style: StyleOption) => void;
+}
+
+export default class StylesControl extends Base {
+  styles: StyleOption[];
+  onChange?: (style: StyleOption) => void;
+  buttons: Button[];
+
+  constructor(options?: StylesControlOptions) {
+    super();
+    this.styles = options?.styles ?? this.defaultOptions;
+    this.onChange = options?.onChange;
+    this.buttons = [];
+  }
+
+  insert() {
+    this.addClassName('mapbox-control-styles');
+    this.styles.forEach((style) => {
+      const button = new Button();
+      button.setText(style.label);
+      button.onClick(() => {
+        if (button.isActive()) return;
+        this.map.setStyle(style.styleUrl);
+        if (this.onChange) this.onChange(style);
+      });
+      this.buttons.push(button);
+      this.addButton(button);
+    });
+
+    this.map.on('styledata', () => {
+      this.buttons.forEach((button) => {
+        button.setActive(false);
+      });
+      const styleNames = this.styles.map((style) => style.styleName);
+      const styleName = this.map.getStyle().name;
+      if (!styleName) throw Error('style must have name');
+      const currentStyleIndex = styleNames.indexOf(styleName);
+      if (currentStyleIndex !== -1) {
+        const currentButton = this.buttons[currentStyleIndex];
+        currentButton.setActive(true);
+      }
+    });
+  }
+
+  get defaultOptions(): StyleOption[] {
+    return [
+      {
+        label: 'Streets',
+        styleName: 'Mapbox Streets',
+        styleUrl: 'mapbox://styles/mapbox/streets-v11',
+      }, {
+        label: 'Satellite',
+        styleName: 'Mapbox Satellite Streets',
+        styleUrl: 'mapbox://sprites/mapbox/satellite-streets-v11',
+      },
+    ];
+  }
+
+  onAddControl() {
+    this.insert();
+  }
+}
+  
+export interface StyleOption {
+  /** Style label to display on switcher */
+  label: string;
+  /* [Style name from spec](https://docs.mapbox.com/mapbox-gl-js/style-spec/#root-name) */
+  styleName: string;
+  /* Style url */
+  styleUrl: string;
+}
+  
+
+  
+</script>
+
+<style>
+	
+	body { margin: 0; padding: 0; }
+	#map { position: relative; width: 100%; height:1000px; }
+	
+	.row { padding:20px; }
+	.columnL { float: left; width: 20% }
+	.columnR { float: right; width: 80% }
+	
+.map-overlay {
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+position: relative;
+width: 200px;
+top: 0;
+left: 0;
+padding: 10px;
+}
+ 
+.map-overlay .map-overlay-inner {
+background-color: #fff;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+border-radius: 3px;
+padding: 10px;
+margin-bottom: 10px;
+}
+ 
+.map-overlay-inner fieldset {
+border: none;
+padding: 0;
+margin: 0 0 10px;
+}
+ 
+.map-overlay-inner fieldset:last-child {
+margin: 0;
+}
+ 
+.map-overlay-inner select {
+width: 100%;
+}
+ 
+.map-overlay-inner label {
+display: block;
+font-weight: bold;
+margin: 0 0 5px;
+}
+ 
+.map-overlay-inner button {
+display: inline-block;
+width: 36px;
+height: 20px;
+border: none;
+cursor: pointer;
+}
+ 
+.map-overlay-inner button:focus {
+outline: none;
+}
+ 
+.map-overlay-inner button:hover {
+box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+	
+/* Style control */
+  
+.mapbox-control-styles {
+  display: flex;
+  overflow: hidden;
+
+  button {
+    width: auto;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+
+    & + button {
+      border: none;
+    }
+  }
+}
+  
+.mapbox-control {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: #505050;
+    }
+
+    &.-active {
+      background: rgba(0, 0, 0, 0.03);
+
+      svg {
+        fill: #4264fb;
+      }
+    }
+
+    &[disabled] {
+      pointer-events: none;
+
+      svg {
+        fill: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+ 
+</style>
+</head>
+<body>
+	
+<div class="row">
+<div class="columnL">
+	
+<div class="map-overlay top">
+<div class="map-overlay-inner">
+<fieldset>
+<label>Select layer</label>
+<select id="layer" name="layer">
+<option value="water">Water</option>
+<option value="background">Background</option>
+<option value="road_network">Road network</option>
+<option value="border_country">Border</option>
+</select>
+</fieldset>
+<fieldset>
+<label>Choose a color</label>
+<div id="swatches"></div>
+</fieldset>
+
+</div>
+</div>
+
+</div>
+	
+<div class="columnR">
+<div id="map"></div>
+</div>
+	
+</div>
+	
+	
+<script>
+  
+var map = new maplibregl.Map({
+container: 'map', // container id
+style: 'https://api.maptiler.com/maps/4b662653-45ea-424c-9ab5-abea520ca5bc/style.json?key=82w8f522FRrsV0W7g8QF', // style URL
+center: [103.8198, 1.3521], // starting position [lng, lat]
+zoom: 4 // starting zoom
+});
+	
+
+map.addControl(new maplibregl.NavigationControl(), 'top-right');
+	
+//Add control for exporting
+map.addControl(new MaplibreExportControl({
+	PageSize: Size.A3,
+	Format: Format.PNG,
+}), 'top-right');
+	
+
+var layer = document.getElementById('layer');	
+  
+var vis = document.getElementById('vis');
+
+var swatches = document.getElementById('swatches');
+
+var colors = [
+'#ffffff',
+'#000000',
+'#41b6c4',
+'#2c7fb8',
+'#253494',
+'#fed976',
+'#feb24c',
+'#fd8d3c',
+'#f03b20',
+'#bd0026'
+];
+	
+
+ 
+colors.forEach(function (color) {
+		
+var swatch = document.createElement('button');
+swatch.style.backgroundColor = color;
+swatch.addEventListener('click', function () {	
+map.setPaintProperty(layer.value, 'fill-color', color);
+});
+swatch.addEventListener('click', function () {	
+map.setPaintProperty(layer.value, 'background-color', color);
+});
+swatch.addEventListener('click', function () {	
+map.setPaintProperty(layer.value, 'line-color', color);
+});
+	
+swatches.appendChild(swatch);
+});
+
+
+//add layer visibility toggle	
+map.on('load', function() {
+    const targets = {
+        'residential': 'Residential',
+	'glacier': 'Glacier',	   
+        'landcover': 'Landcover', 	     
+        'forest': 'Forest',
+	'waterway': 'Waterway',
+	'waterway_intermittent': 'Waterway intermittent',
+	'railway_transit_tunnel': 'Railway transit tunnel',
+	'road_bridge': 'Road bridge',
+	'road_pier': 'Road pier',
+	'road_network': 'Road network',
+	'road_path': 'Road path',
+        'place': 'Place', 
+        'country': 'Country'
+        
+    };
+    map.addControl(new MaplibreLegendControl(targets, {
+        showDefault: false, 
+        showCheckbox: true, 
+        onlyRendered: false,
+        reverseOrder: false
+    }), 'top-right');
+})
+
+	
+	
+//Draw
+
+var draw = new MapboxDraw({
+displayControlsDefault: true,
+controls: {
+	point: true,
+	line_string: true,
+	polygon: true,
+	combine_features: true,
+	trash: true
+	}
+});
+map.addControl(draw);
+
+//Fullscreen
+	
+map.addControl(new maplibregl.FullscreenControl());
+
+//Test
+  
+map.addControl(new StylesControl({
+  styles: [
+    {
+      label: 'Test2',
+      styleName: 'Test2',
+      styleUrl: 'https://api.maptiler.com/maps/4f23c8f4-b822-442b-93be-c924d4515734/style.json?key=82w8f522FRrsV0W7g8QF',
+    }, {
+      label: 'Satellite',
+      styleName: 'Satellite',
+      styleUrl: 'https://api.maptiler.com/maps/hybrid/style.json?key=82w8f522FRrsV0W7g8QF',
+    },
+  ],
+  onChange: (style) => console.log(style),
+}), 'top-left');
+  
+ 
+</script>
+ 
+</body>
+</html>
