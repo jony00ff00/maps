@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Drawing on map 2</title>
+<title>Drawing on map</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
 <script src="https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.js"></script>
@@ -217,14 +217,6 @@ controls: {
 	combine_features: true,
 	trash: true
 	}
-defaultMode: "draw_circle",
-userProperties: true,
-modes: {
-    draw_circle  : CircleMode,
-    drag_circle  : DragCircleMode,
-    direct_select: DirectMode,
-    simple_select: SimpleSelectMode
- 	}
 });
 map.addControl(draw);
 
