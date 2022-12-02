@@ -11,6 +11,10 @@
 <link href='https://watergis.github.io/maplibre-gl-export/maplibre-gl-export.css' rel='stylesheet' />
 <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
 <link href='https://watergis.github.io/maplibre-gl-legend/maplibre-gl-legend.css' rel='stylesheet' />
+	
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css" type="text/css"/>
+
 <style>
 	
 	body { margin: 0; padding: 0; }
@@ -197,7 +201,16 @@ map.on('load', function() {
 
 	
 	
-	
+//Draw
+
+var draw = new MapboxDraw({
+displayControlsDefault: false,
+controls: {
+polygon: true,
+trash: true
+}
+});
+map.addControl(draw);
 
 
 
