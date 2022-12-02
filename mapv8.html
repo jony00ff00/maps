@@ -98,6 +98,11 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 <label>Choose a color</label>
 <div id="swatches"></div>
 </fieldset>
+	
+<fieldset>
+<label>Load map style</label>
+<button id="viewbutton">Load</button>
+</fieldset>
 
 </div>
 </div>
@@ -196,6 +201,47 @@ map.on('load', function() {
 })
 
 	
+	
+	
+//Load style from file	
+var viewbutton = document.getElementById('viewbutton');
+ 
+async function buttonClickHandler() {
+let fileHandle;
+[fileHandle] = await window.showOpenFilePicker({
+// allow only single file
+multiple: false,
+ 
+// apply filter for JSON files
+types: [
+{
+description: 'JSON',
+accept: { 'application/json': ['.json'] }
+}
+],
+ 
+// start in download directory
+startIn: 'downloads'
+});
+ 
+// get file handle and read content
+const file = await fileHandle.getFile();
+const contents = await file.text();
+ 
+// parse file as json and add as source to the map
+map.setStyle('uploaded-source');
+ 
+}
+ 
+if ('showOpenFilePicker' in window) {
+viewbutton.addEventListener('click', buttonClickHandler);
+} else {
+viewbutton.innerText =
+'Your browser does not support File System Access API';
+// If you want a fallback, try <input type="file">; but this uses classical file upload
+}
+	
+
 
 	
 </script>
