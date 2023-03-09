@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>3D Bar Chart in Three.js with Ambient Lighting</title>
+	<title>3D Translucent Glass Skull with Backlighting in Three.js</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
 	<style>
@@ -20,29 +20,22 @@
 		// Set up the scene, camera, and renderer
 		var scene = new THREE.Scene();
 		var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-		var renderer = new THREE.WebGLRenderer();
+		var renderer = new THREE.WebGLRenderer({ alpha: true });
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(renderer.domElement);
 
-		// Create the bars
-		var barGeometry = new THREE.BoxGeometry(1, 1, 1);
-		var barMaterial = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
-		var bar1 = new THREE.Mesh(barGeometry, barMaterial);
-		bar1.position.set(-2, 0, 0);
-		bar1.scale.y = 3;
-		scene.add(bar1);
-		var bar2 = new THREE.Mesh(barGeometry, barMaterial);
-		bar2.position.set(0, 0, 0);
-		bar2.scale.y = 5;
-		scene.add(bar2);
-		var bar3 = new THREE.Mesh(barGeometry, barMaterial);
-		bar3.position.set(2, 0, 0);
-		bar3.scale.y = 2;
-		scene.add(bar3);
+		// Create the skull
+		var skullLoader = new THREE.GLTFLoader();
+		skullLoader.load('models/glass-skull.glb', function (gltf) {
+			var skull = gltf.scene.children[0];
+			skull.material = new THREE.MeshLambertMaterial({ color: 0xffffff, opacity: 0.7, transparent: true, side: THREE.DoubleSide });
+			scene.add(skull);
+		});
 
-		// Add ambient light
-		var ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-		scene.add(ambientLight);
+		// Add backlight
+		var pointLight = new THREE.PointLight(0xffffff, 0.8);
+		pointLight.position.set(0, 0, -10);
+		scene.add(pointLight);
 
 		// Add controls to rotate the view
 		var controls = new THREE.OrbitControls(camera, renderer.domElement);
