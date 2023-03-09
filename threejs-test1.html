@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>3D Bar Chart in Three.js</title>
+	<title>3D Bar Chart in Three.js with Ambient Lighting</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
 	<style>
 		body {
 			margin: 0;
@@ -25,7 +26,7 @@
 
 		// Create the bars
 		var barGeometry = new THREE.BoxGeometry(1, 1, 1);
-		var barMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		var barMaterial = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
 		var bar1 = new THREE.Mesh(barGeometry, barMaterial);
 		bar1.position.set(-2, 0, 0);
 		bar1.scale.y = 3;
@@ -39,6 +40,16 @@
 		bar3.scale.y = 2;
 		scene.add(bar3);
 
+		// Add ambient light
+		var ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+		scene.add(ambientLight);
+
+		// Add controls to rotate the view
+		var controls = new THREE.OrbitControls(camera, renderer.domElement);
+		controls.enableDamping = true;
+		controls.dampingFactor = 0.25;
+		controls.enableZoom = false;
+
 		// Position the camera
 		camera.position.z = 5;
 
@@ -46,6 +57,7 @@
 		function animate() {
 			requestAnimationFrame(animate);
 			renderer.render(scene, camera);
+			controls.update();
 		}
 		animate();
 	</script>
