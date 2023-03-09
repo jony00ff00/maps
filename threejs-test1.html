@@ -1,0 +1,52 @@
+<html>
+  <head>
+<script src="https://cdn.rawgit.com/mrdoob/three.js/master/build/three.min.js"></script>
+  </head>
+  <body>
+<div>This is a placeholder</div>
+<div id="my-scene"></div>
+<div>This is a placeholder</div>
+<script>
+	
+ var container = document.getElementById('my-scene');
+
+	// Set up scene, camera, and renderer
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+// Create data for chart
+var data = [10, 15, 20, 25, 30];
+
+// Set up variables for chart
+var barWidth = 5;
+var barDepth = 5;
+var barHeightMultiplier = 10;
+var xPosition = -50;
+
+// Create bars for chart
+for (var i = 0; i < data.length; i++) {
+  var barHeight = data[i] * barHeightMultiplier;
+  var geometry = new THREE.BoxGeometry( barWidth, barHeight, barDepth );
+  var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+  var cube = new THREE.Mesh( geometry, material );
+  cube.position.x = xPosition;
+  cube.position.y = barHeight / 2;
+  scene.add( cube );
+  xPosition += barWidth + 2;
+}
+
+// Set up camera position
+camera.position.z = 100;
+
+// Render scene
+function animate() {
+  requestAnimationFrame( animate );
+  renderer.render( scene, camera );
+}
+animate();
+</script>
+  </body>
+</html>
