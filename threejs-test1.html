@@ -1,52 +1,53 @@
+<!DOCTYPE html>
 <html>
-  <head>
-<script src="https://cdn.rawgit.com/mrdoob/three.js/master/build/three.min.js"></script>
-  </head>
-  <body>
-<div>This is a placeholder</div>
-<div id="my-scene"></div>
-<div>This is a placeholder</div>
-<script>
-	
- var container = document.getElementById('my-scene');
+<head>
+	<title>3D Bar Chart in Three.js</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
 
-	// Set up scene, camera, and renderer
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+		canvas {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<script>
+		// Set up the scene, camera, and renderer
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
 
-// Create data for chart
-var data = [10, 15, 20, 25, 30];
+		// Create the bars
+		var barGeometry = new THREE.BoxGeometry(1, 1, 1);
+		var barMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		var bar1 = new THREE.Mesh(barGeometry, barMaterial);
+		bar1.position.set(-2, 0, 0);
+		bar1.scale.y = 3;
+		scene.add(bar1);
+		var bar2 = new THREE.Mesh(barGeometry, barMaterial);
+		bar2.position.set(0, 0, 0);
+		bar2.scale.y = 5;
+		scene.add(bar2);
+		var bar3 = new THREE.Mesh(barGeometry, barMaterial);
+		bar3.position.set(2, 0, 0);
+		bar3.scale.y = 2;
+		scene.add(bar3);
 
-// Set up variables for chart
-var barWidth = 5;
-var barDepth = 5;
-var barHeightMultiplier = 10;
-var xPosition = -50;
+		// Position the camera
+		camera.position.z = 5;
 
-// Create bars for chart
-for (var i = 0; i < data.length; i++) {
-  var barHeight = data[i] * barHeightMultiplier;
-  var geometry = new THREE.BoxGeometry( barWidth, barHeight, barDepth );
-  var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-  var cube = new THREE.Mesh( geometry, material );
-  cube.position.x = xPosition;
-  cube.position.y = barHeight / 2;
-  scene.add( cube );
-  xPosition += barWidth + 2;
-}
-
-// Set up camera position
-camera.position.z = 100;
-
-// Render scene
-function animate() {
-  requestAnimationFrame( animate );
-  renderer.render( scene, camera );
-}
-animate();
-</script>
-  </body>
+		// Render the scene
+		function animate() {
+			requestAnimationFrame(animate);
+			renderer.render(scene, camera);
+		}
+		animate();
+	</script>
+</body>
 </html>
