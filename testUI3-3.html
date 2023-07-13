@@ -1,0 +1,253 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet"/>
+<script src="https://unpkg.com/grapesjs"></script>
+<script src="https://unpkg.com/grapesjs-blocks-basic"></script>
+<script src="https://unpkg.com/grapesjs-tui-image-editor"></script>
+	
+	
+<link href="https://unpkg.com/grapesjs-component-code-editor/dist/grapesjs-component-code-editor.min.css" rel="stylesheet">
+<script src="https://unpkg.com/grapesjs-component-code-editor"></script>
+<script src="https://unpkg.com/grapesjs-parser-postcss"></script>
+<script src="https://unpkg.com/grapesjs-plugin-ckeditor"></script>
+<script src="https://cdn.ckeditor.com/4.21.0/standard-all/ckeditor.js"></script>
+
+	<style>
+	body,
+	html {
+	  height: 100%;
+	  margin: 0;
+	}
+	
+	</style>
+
+</head>
+
+<body>
+	<div id="gjs" style="height:0px; overflow:hidden">
+      <div style="margin:100px 100px 25px; padding:25px; font:caption; text-align: left">
+        <div style="padding: 10px 25px 10px 25px; font-size: 1rem">Drag here your blocks</div>
+      </div>
+    </div>
+	
+</body>
+	
+<script>
+	
+	var editor = grapesjs.init({
+        height: '100%',
+        showOffsets: 1,
+        noticeOnUnload: 0,
+        avoidInlineStyle: 1,
+        storageManager: { autoload: 0 },
+        container: '#gjs',
+        fromElement: true,		
+        styleManager: {
+          sectors: [{
+              name: 'General',
+              open: false,
+              buildProps: ['float', 'display', 'position', 'top', 'right', 'left', 'bottom']
+            },{
+              name: 'Dimension',
+              open: false,
+              buildProps: ['width', 'flex-width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
+              properties: [{
+                id: 'flex-width',
+                type: 'integer',
+                name: 'Width',
+                units: ['px', '%'],
+                property: 'flex-basis',
+                toRequire: 1,
+              }]
+          },{
+            name: 'Decorations',
+            open: false,
+            buildProps: ['border-radius-c', 'background-color', 'border-radius', 'border', 'box-shadow', 'background'],
+          }]
+        },
+
+        plugins: [			
+			'gjs-blocks-basic',
+			'grapesjs-tui-image-editor',
+			'grapesjs-component-code-editor',
+			'grapesjs-parser-postcss',
+			'grapesjs-plugin-ckeditor'
+				 ],
+        pluginsOpts: {          	
+			'gjs-blocks-basic': {flexGrid: true},			
+			'grapesjs-tui-image-editor': {
+			  config: {
+				includeUI: {
+				  initMenu: 'filter',
+				},
+			  },
+			},
+			'grapesjs-component-code-editor': { /* options */ },
+			'grapesjs-plugin-ckeditor': { 
+				options: {
+                    language: 'en',
+                    toolbarGroups: [
+		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+		{ name: 'forms', groups: [ 'forms' ] },
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+		{ name: 'links', groups: [ 'links' ] },
+		{ name: 'insert', groups: [ 'insert' ] },
+		{ name: 'styles', groups: [ 'styles' ] },
+		{ name: 'colors', groups: [ 'colors' ] },
+		{ name: 'tools', groups: [ 'tools' ] },
+		{ name: 'others', groups: [ 'others' ] },
+		{ name: 'about', groups: [ 'about' ] }
+                    ],
+                    removeButtons: 'NewPage'
+			},
+			
+			},
+		},
+		
+			
+
+        assetManager: {
+          assets: [
+             { type: 'image', src : 'http://placehold.it/350x250/78c5d6/fff/image1.jpg?text=GrapesJS', height:350, width:250, name:'Image1'},
+             { type: 'image', src : 'http://placehold.it/350x250/459ba8/fff/image2.jpg?text=GrapesJS', height:350, width:250, name:'Image2'},
+             { type: 'image', src : 'http://placehold.it/350x250/79c267/fff/image3.jpg?text=GrapesJS', height:350, width:250, name:'Image3'},
+             { type: 'image', src : 'http://placehold.it/350x250/c5d647/fff/image4.jpg?text=GrapesJS', height:350, width:250, name:'Image4'},
+             { type: 'image', src : 'http://placehold.it/350x250/f28c33/fff/image5.jpg?text=GrapesJS', height:350, width:250, name:'Image5'},
+             { type: 'image', src : 'http://placehold.it/350x250/e868a2/fff/image6.jpg?text=GrapesJS', height:350, width:250, name:'Image6'},
+             { type: 'image', src : 'http://placehold.it/350x250/cc4360/fff/image7.jpg?text=GrapesJS', height:350, width:250, name:'Image7'},
+           ]
+        },
+		
+		blockManager: {
+			
+			blocks: [
+      {
+        id: 'CV', // id is mandatory
+        label: 'CV', // You can use HTML/SVG inside labels	  	     
+        content: {type:'cv'}
+			
+      }, {
+        id: 'image',
+        label: 'Image',
+        media: `<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z" />
+        </svg>`,
+        // Use `image` component
+        content: { type: 'image' },
+        // The component `image` is activatable (shows the Asset Manager).
+        // We want to activate it once dropped in the canvas.
+        activate: true,
+        // select: true, // Default with `activate: true`
+      }
+    ],
+		}
+		
+      });
+	
+	
+//ADD CODE EDITOR
+	
+	const pn = editor.Panels;
+	const panelViews = pn.addPanel({
+	  id: 'views'
+	});
+	panelViews.get('buttons').add([{
+	  attributes: {
+		 title: 'Open Code'
+	  },
+	  className: 'fa fa-file-code-o',
+	  command: 'open-code',
+	  togglable: false, //do not close when button is clicked again
+	  id: 'open-code'
+	}]);
+	
+
+	
+//ADD COMPONENTS
+	
+  editor.Components.addType('cv',{
+
+  model: {
+    defaults: {
+		tagName: 'div',
+	      attributes: { class: 'cv-css' },
+		  components: `
+				<section>
+				<div class="cv-container">
+					<div class="cv-item-full">test</div>
+				</div>
+				<div class="cv-container">
+					<img class="cv-item-left-img">
+					<div class="cv-item-right-a">Person's info</div>
+				</div>
+				<div class="cv-container">
+					<div class="cv-item-full"></div>
+				</div>
+				<div class="cv-container">
+					<div class="cv-item-left">1</div>
+					<div class="cv-item-right">
+					<li>Lorem</li>
+					<li>Ipsum</li>
+					</div>
+				</div>
+				</section>
+		  `,
+		
+		  styles: `
+				.cv-container {
+					display:flex;
+					flex-direction: row;
+					font-family: Helvetica, Arial, "sans-serif";
+					font-size: 1.5em;
+					text-align: center;
+				}
+
+				.cv-item-full {
+					background-color: #D18283;
+					padding: 10px;
+					flex: 100%;
+				}
+
+				.cv-item-left {
+					background-color: #f1f1f1;
+					padding: 10px;
+					flex: 50%;
+				}
+
+				.cv-item-left-img {
+					background-color: #f1f1f1;
+					padding: 0px;
+					flex: 50%;
+				}
+
+				.cv-item-right {
+					background-color: dodgerblue;
+					padding: 10px;
+					flex: 50%;
+				}
+
+				.cv-item-right-a {
+					background-color:#1FB3CF;
+					padding: 10px;
+					flex: 50%;
+				}
+
+
+				@media (max-width: 768px) {
+					.cv-container {
+						flex-direction: column;
+					}
+				}
+		  `,
+    },
+  },
+							   });	
+	
+</script>	
+	
+</html>
