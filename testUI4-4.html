@@ -1,7 +1,7 @@
 <!doctype html>
 <html><head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>CV Test Document</title>
 <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet"/>
 <script src="https://unpkg.com/grapesjs"></script>
 <script src="https://unpkg.com/grapesjs-blocks-basic"></script>
@@ -180,72 +180,254 @@
 		tagName: 'div',
 	      attributes: { class: 'cv-css' },
 		  components: `
-				<section>
-				<div class="cv-container">
-					<div class="cv-item-full">test</div>
-				</div>
-				<div class="cv-container">
-					<img class="cv-item-left-img">
-					<div class="cv-item-right-a">Person's info</div>
-				</div>
-				<div class="cv-container">
-					<div class="cv-item-full"></div>
-				</div>
-				<div class="cv-container">
-					<div class="cv-item-left">1</div>
-					<div class="cv-item-right">
-					<li>Lorem</li>
-					<li>Ipsum</li>
-					</div>
-				</div>
-				</section>
+				<section class="cv-container">
+<div class="cv-title"><strong>LOREM IPSUM NAME</strong></div>   
+    <div class="cv-row-top">
+        <div class="cv-item-top-1"><img src="img/test.jpg" /></div>
+      <div class="cv-item-top-2">
+            <div class="cv-item-top-header"><strong>Main</strong></div>
+            <div class="cv-item-top-content">This is a test<br>Lorem<br>Ipsum</div>
+        </div>
+        <div class="cv-item-top-3">
+            <div class="cv-item-top-header"><strong>Second</strong></div>
+            <div class="cv-item-top-content">This is a test<br>Lorem<br>Ipsum</div>
+        </div>
+    </div>
+    <div class="cv-title">DOLOR</div>
+    <div class="cv-row">
+        <div class="cv-item-left-column">
+            <div class="cv-column-1">
+                <div class="cv-item-top-header"><strong>Main</strong></div>
+                <div class="cv-item-top-content">This is a test<br>Lorem<br>Ipsum</div>
+            </div>
+            <div class="cv-column-2">
+                <div class="cv-item-top-header"><strong>Main</strong></div>
+                <div class="cv-item-top-content">This is a test<br>Lorem<br>Ipsum</div>
+            </div>
+            <div class="cv-column-3">
+                <div class="cv-item-top-header"><strong>Main</strong></div>
+                <div class="cv-item-top-content">This is a test<br>Lorem<br>Ipsum</div>
+            </div>
+        </div>
+      <div class="cv-item-right">
+            
+            <ul>
+                <li>
+                    <table>
+                    <td><div class="year">1980</div></td><td><div class="year-text">Lorem</div></td>
+                    </table>
+                </li>               
+                <li>
+                    <table>
+                    <td><div class="year">1980</div></td><td><div class="year-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</div></td>
+                    </table>
+                </li>
+                <li>
+                    <table>
+                    <td><div class="year">1980</div></td><td><div class="year-text">Dolor sit amet</div></td>
+                    </table>
+                </li>
+                <li>
+                    <table>
+                    <td><div class="year">1980</div></td><td><div class="year-text">Ipsum consectetur adipiscing elit</div></td>
+                    </table>
+                </li>
+            </ul>
+            
+        </div>          
+    </div>
+    </section>
 		  `,
 		
 		  styles: `
 				.cv-container {
-					display:flex;
-					flex-direction: row;
-					font-family: Helvetica, Arial, "sans-serif";
-					font-size: 1.5em;
-					text-align: center;
-				}
+            display: block;
+            margin: auto;
+            max-width: 800px;
+            max-height: 1200px; 
+        }
+        
+        .cv-title {
+            display:block;
+            background-color: #164142;
+            font-family: Helvetica, Arial, "sans-serif";
+            font-size: 1.5em;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .cv-row-top {   
+            display:flex;
+            font-family: Helvetica, Arial, "sans-serif";
+            font-size: 1em;
+            text-align: left;
+            max-height: 200px;
+            border-style: solid;
+            border-color: #164142;
+        }
+        
+        .cv-item-top-1 {
+            background-color: #f1f1f1;
+            flex: 30%;  
+            max-height: 200px;
+            border-style: solid;
+            border-color: #164142;
+        }
+        
+        img{
+            background-color: #8C0709;
+            min-height: 191px;
+            max-height: 191px;
+            width: 100%;
+            max-width: 30vw;
+            object-fit: cover;
+          object-position: center;
+            
+        }
+                        
+        .cv-item-top-2 {
+            background-color: #f3f3f3;
+            flex: 35%;
+            border-style: solid;
+            border-color: #164142;
+        }
+        
+        .cv-item-top-header {
+            background-color: #B0720B;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .cv-item-top-content {          
+            padding:10px;
+            text-align: left;
+            height: auto;
+        }
+        
+        .cv-item-top-3 {
+            background-color: #f6f6f6;
+            flex: 35%;
+            border-style: solid;
+            border-color: #164142;
+        }
+                
+        .cv-row {   
+            display:flex;
+            flex-direction: row;
+            font-family: Helvetica, Arial, "sans-serif";
+            font-size: 1em;
+            text-align: left;
+            border-style: solid;
+            border-color: #164142;
+        }
+        
+        .cv-item-left-column {
+            background-color: #f1f1f1;
+            display:flex;
+            flex-direction: column;
+            font-family: Helvetica, Arial, "sans-serif";
+            font-size: 1em;
+            text-align: left;           
+            flex: 50%;
+            height: 800px;
+        }
+        
+        .cv-column-1 {          
+            background-color: #E4E4E4;
+            flex: 33%;
+        }
+        
+        .cv-column-2 {          
+            background-color: #D5D5D5;
+            flex: 33%;
+        }
+        
+        .cv-column-3 {          
+            background-color: #C6C6C6;
+            flex: 33%;
+        }
+                
+        .cv-item-left-column {
+            background-color: #f1f1f1;
+            display:flex;
+            flex-direction: column;
+            font-family: Helvetica, Arial, "sans-serif";
+            font-size: 1em;
+            text-align: left;           
+            flex: 50%;
+            height: 800px;
+            border-style: solid;
+            border-color: #164142;
+        }
 
-				.cv-item-full {
-					background-color: #D18283;
-					padding: 10px;
-					flex: 100%;
-				}
 
-				.cv-item-left {
-					background-color: #f1f1f1;
-					padding: 10px;
-					flex: 50%;
-				}
+        .cv-item-right {
+           background-color: #92C9F2;
+          padding: 10px;
+          flex: 50%;
+            border-style: solid;
+            border-color: #164142;
+        }
+        
+        ul {
+     	   display: flex;
+     	   flex-direction: column;
+     	   justify-content: space-between;
+     	   padding: 0;
+     	   margin: 0;
+     	   list-style: none;
+     	   height: 100%;
+            
+        }
+        
+        li {
+            padding: 20px 10px 20px 20px;
+        }
+        
+        .year {
+            background-color: #753158;
+            color: #ffffff;
+            padding:10px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 1em;
+            width: 100px;
+        }
+        
+        .year-text {
+            background-color: none;
+            color: #000000;
+            padding:10px;
+            text-align: left;
+            vertical-align: middle;
+            font-size: 1em;
+        }
+        
+        @media (max-width: 480px) {
+            .cv-container {
+                display:block;
+                width: 100%;
+                max-height: none;
+            }
+            
+            .cv-row-top {
+                flex-direction: column;
+                height:auto;
+                max-height:none;
+            }
+            
+            img {
+                width:100%;
+                max-width: 100vw;
+                max-height: 200px;
+            }
+            
+            .cv-row {
+                flex-direction: column;
+            }
+        }
 
-				.cv-item-left-img {
-					background-color: #f1f1f1;
-					padding: 0px;
-					flex: 50%;
-				}
-
-				.cv-item-right {
-					background-color: dodgerblue;
-					padding: 10px;
-					flex: 50%;
-				}
-
-				.cv-item-right-a {
-					background-color:#1FB3CF;
-					padding: 10px;
-					flex: 50%;
-				}
-
-
-				@media (max-width: 768px) {
-					.cv-container {
-						flex-direction: column;
-					}
-				}
 		  `,
     },
   },
