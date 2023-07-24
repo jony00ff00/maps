@@ -207,7 +207,7 @@
 	      attributes: { class: 'cv-css' },
 		  components: `
 				<section class="cv-container">
-<div class="cv-title"><strong>LOREM IPSUM NAME</strong></div>   
+<div class="cv-title">LOREM IPSUM NAME</div>   
     <div class="cv-row-top">
         <div class="cv-item-top-1"><img src="" alt="CV pic"/></div>
       <div class="cv-item-top-2">
@@ -266,9 +266,10 @@
 		  `,
 		
 		  styles: `
-				.cv-container {
+	.cv-container {
             display: block;
             margin: auto;
+            background-color: #164142;
             max-width: 800px;
             max-height: 1200px; 
         }
@@ -281,6 +282,7 @@
             color: #ffffff;
             text-align: center;
             padding: 10px;
+	    font-weight: bold;
         }
         
         .cv-row-top {   
@@ -395,7 +397,12 @@
             border-style: solid;
             border-color: #164142;
         }
-        
+
+	p {
+		margin: 0;
+  		padding: 0;
+ 	}
+ 
         ul {
      	   display: flex;
      	   flex-direction: column;
